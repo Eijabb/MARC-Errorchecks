@@ -9,7 +9,7 @@
 =cut
 
 use strict;
-use Test::More tests=>74;#73;
+use Test::More tests=>73;#72;
 
 BEGIN { use_ok( 'MARC::Errorchecks' ); }
 print "MARC::Errorchecks version $MARC::Errorchecks::VERSION\n";
@@ -17,7 +17,7 @@ print "MARC::Errorchecks version $MARC::Errorchecks::VERSION\n";
 ###################################################
 	#one material type per field in @bad008s
 	my @mattypes = (
-		('a')x30,
+		('a')x31,
 		('m')x8,
 		('e')x11,
 		('c')x10,
@@ -44,8 +44,10 @@ print "MARC::Errorchecks version $MARC::Errorchecks::VERSION\n";
 		q{050517s20042001ilu           000 0 eng d},
 		#date type vs. date1 and date2
 		q{050517r2004    ilu           000 0 eng d},
-		#date type vs. date1 and date2
+		#date type vs. date1 and date2 with e (no error)
 		q{050517e200406  ilu           000 0 eng d},
+		#date type vs. date1 and date2 with e (bad date2 character)
+		q{050517e2004d6  ilu           000 0 eng d},
 		#date 1 blank
 		q{050517s        ilu           000 0 eng d},
 		#date 1 bad chars
@@ -230,8 +232,9 @@ print "MARC::Errorchecks version $MARC::Errorchecks::VERSION\n";
 		q{008: Bytes 11-14, Date2 (2001) should be blank for this date type (s).},
 		q{008: Bytes 11-14, Date2 (    ) has bad characters or is blank which is not consistent with this date type (r).},
 		###verify MARC docs for 'e' date type
-		q{008: Bytes 11-14, Date2 (06  ) has bad characters or is blank which is not consistent with this date type (e).}, ###no error should exist?
+		#q{008: Bytes 11-14, Date2 (06  ) has bad characters or is blank which is not consistent with this date type (e).}, ###no error should exist?
 		###
+		q{008: Bytes 11-14, Date2 (d6  ) has bad characters or is not consistent with this date type (e).},
 		q{008: Bytes 7-10, Date1 has bad characters (    ).},
 		q{008: Bytes 7-10, Date1 has bad characters (209a).},
 		q{008: Bytes 11-14, Date2 (205a) has bad characters or is blank which is not consistent with this date type (r).},
@@ -285,7 +288,7 @@ print "MARC::Errorchecks version $MARC::Errorchecks::VERSION\n";
 		
 		#music and sound rec 18-34
 		q{008: Bytes 18-19, Music-Form of composition has bad characters (ab).},
-		q{008: Byte 20, Music-Format of music has bad characters (p).},
+#		q{008: Byte 20, Music-Format of music has bad characters (p).},
 		q{008: Byte 21, Music-Parts has bad characters (a).},
 		q{008: Byte 22, Music-Audience has bad characters (h).},
 		q{008: Byte 23, Music-Form of item has bad characters (e).},

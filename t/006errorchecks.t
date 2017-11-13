@@ -103,7 +103,7 @@ print "MARC::Errorchecks version $MARC::Errorchecks::VERSION\n";
 		#form of comp
 		q{cabz              },
 		#format of music
-		q{czzp              },
+		q{czzq              },
 		#music parts
 		q{czzza             },
 		#audience
@@ -206,7 +206,7 @@ print "MARC::Errorchecks version $MARC::Errorchecks::VERSION\n";
 		
 		#music and sound rec 18-34
 		q{006: Byte(s) 01-02, Music-Form of composition has bad characters (ab).},
-		q{006: Byte(s) 03, Music-Format of music has bad characters (p).},
+		q{006: Byte(s) 03, Music-Format of music has bad characters (q).},
 		q{006: Byte(s) 04, Music-Parts has bad characters (a).},
 		q{006: Byte(s) 05, Music-Audience has bad characters (h).},
 		q{006: Byte(s) 06, Music-Form of item has bad characters (e).},

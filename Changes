@@ -1,9 +1,14 @@
 Revision history for Perl extension MARC::Errorchecks.
 
-Version 1.18: Updated Oct. 8, 2012 to June 15, 2017. Released , 2017.
+Version 1.19: Sept. 3, 2013 to Nov. 12, 2017. Released November 12, 2017.
+
+ -Updated Format of music to allow 'p' (piano score), added in MARC Update 23 (November 2016).
+ -Updated %ldrbytes with 'n' in LDR/18, added in MARC Update 23 (November 2016).
+ -Updated validate008 to handle date2 for detailed date datetype ('e').
+
+Version 1.18: Updated Oct. 8, 2012 to Sept. 2, 2013. Released Sept. 2, 2013.
 
  -Updated _check_music_bytes for MARC Update 16 (Sept. 2012), adding 'l' as valid for 008/20.
- -Updated Format of music (line 3859) to allow 'p' (piano score); temporary update pending officially updating the module to comply with recent MARC updates
 
 Version 1.17: Updated Oct. 8, 2012 to June 22, 2013. Released June 23, 2013.
 

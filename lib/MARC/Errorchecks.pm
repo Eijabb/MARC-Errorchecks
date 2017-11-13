@@ -12,7 +12,7 @@ require Exporter;
 @ISA = qw(Exporter);
 # Items to export into callers namespace by default. @EXPORT = qw();
 
-$VERSION = 1.18;
+$VERSION = 1.19;
 
 =head1 NAME
 
@@ -2390,18 +2390,15 @@ my %ldrbytes = (
     '06' => 'Type of record',
     '06valid' => {
         'a' => 'Language material',
-#        'b' => 'Archival and manuscripts control [OBSOLETE]',
         'c' => 'Notated music',
         'd' => 'Manuscript notated music',
         'e' => 'Cartographic material',
         'f' => 'Manuscript cartographic material',
         'g' => 'Projected medium',
-#        'h' => 'Microform publications [OBSOLETE]',
         'i' => 'Nonmusical sound recording',
         'j' => 'Musical sound recording',
         'k' => 'Two-dimensional nonprojectable graphic',
         'm' => 'Computer file',
-#        'n' => 'Special instructional material [OBSOLETE]',
         'o' => 'Kit',
         'p' => 'Mixed material',
         'r' => 'Three-dimensional artifact or naturally occurring object',
@@ -2436,8 +2433,7 @@ my %ldrbytes = (
         'a' => 'AACR 2',
         'c' => 'ISBD punctuation omitted',
         'i' => 'ISBD punctuation included',
-#        'p' => 'Partial ISBD (BK) [OBSOLETE]',
-#        'r' => 'Provisional (VM MP MU) [OBSOLETE]',
+        'n' => 'Non-ISBD punctuation omitted',
         'u' => 'Unknown'
     },
     '19' => 'Multipart resource record level',
@@ -3272,7 +3268,14 @@ sub validate008 {
             push @warningstoreturn, ("008: Bytes 11-14, Date2 ($field008hash{date2}) should be blank for this date type ($field008hash{datetype}).")
         } #unless date2 has 4 blanks for types b, q, s
     } #if date type is b, q, or s
-    #may need elsif for 4 blank spaces with other datetypes or other elsifs for different datetypes (e.g. detailed date, 'e')
+    #account for datetype 'e'
+	elsif ($field008hash{datetype} eq 'e') {
+        #if single, need to have four spaces as date2
+        unless ($field008hash{date2} =~ /^[\d\s]{2}[\d\su][\d\su]$/) {
+            push @warningstoreturn, ("008: Bytes 11-14, Date2 ($field008hash{date2}) has bad characters or is not consistent with this date type ($field008hash{datetype}).")
+        } #unless date2 has 4 blanks for types b, q, s
+	} #elsif detailed date
+	#may need elsif for 4 blank spaces with other datetypes or other elsifs for different datetypes (e.g. detailed date, 'e')
     elsif ($field008hash{date2} !~ /^[u\d|]{4}$/) {
         push @warningstoreturn, ("008: Bytes 11-14, Date2 ($field008hash{date2}) has bad characters or is blank which is not consistent with this date type ($field008hash{datetype}).")}
 
@@ -4119,10 +4122,15 @@ sub _get_current_date {
 
 =head1 CHANGES/VERSION HISTORY
 
-Version 1.18: Updated Oct. 8, 2012 to June 15, 2017. Released , 2017.
+Version 1.19: Sept. 3, 2013 to Nov. 12, 2017. Released November 12, 2017.
+
+ -Updated Format of music to allow 'p' (piano score), added in MARC Update 23 (November 2016).
+ -Updated %ldrbytes with 'n' in LDR/18, added in MARC Update 23 (November 2016).
+ -Updated validate008 to handle date2 for detailed date datetype ('e').
+
+Version 1.18: Updated Oct. 8, 2012 to Sept. 2, 2013. Released Sept. 2, 2013.
 
  -Updated _check_music_bytes for MARC Update 16 (Sept. 2012), adding 'l' as valid for 008/20.
- -Updated Format of music (line 3859) to allow 'p' (piano score); temporary update pending officially updating the module to comply with recent MARC updates
 
 Version 1.17: Updated Oct. 8, 2012 to June 22, 2013. Released June 23, 2013.
 
